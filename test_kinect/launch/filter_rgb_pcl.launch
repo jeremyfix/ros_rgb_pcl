@@ -1,0 +1,27 @@
+<launch>
+
+  <!-- This is actually freenect_launch/freenect-registered-xyzlaunch-->
+  <include file="$(find freenect_launch)/launch/freenect.launch">
+
+    <!-- use device registration -->
+    <arg name="depth_registration"              value="true" /> 
+
+    <arg name="rgb_processing"                  value="true" />
+    <arg name="ir_processing"                   value="false" />
+    <arg name="depth_processing"                value="false" />
+    <arg name="depth_registered_processing"     value="true" />
+    <arg name="disparity_processing"            value="false" />
+    <arg name="disparity_registered_processing" value="false" />
+    <arg name="sw_registered_processing"        value="false" />
+    <arg name="hw_registered_processing"        value="true" />
+
+  </include>
+
+  <node pkg="test_kinect" type="filter_xyzrgb_node" name="filter_xyzrgb">
+    <remap from="input_pcl" to="/camera/depth_registered/points"/>
+    <remap from="output_pcl" to="/filtered_pcl"/>
+  </node>
+
+  <node pkg="rviz" type="rviz" name="visu"/>
+
+</launch>
